@@ -1,24 +1,44 @@
+; Filename: Exer9.asm
+; LOVELY SHANE P. ONG
+; Date: August 30,2024
+
 .model small
-.stack 100
+.stack100h
+
 .data
+    head    db13, 10, 10, ';  Filename: Exer9.asm ', 13, 10
+            db';  Description:  Display a calendar', 13, 10
+            db';  LOVELY SHANE P. ONG', 13, 10
+            db';  Date: August 30, 2024', 13, 10, 10, '$'
 
-desc 	db 13,10,10,10,'Filename: EXER9.ASM',13,10
-			db 'Programmer Name: LOVELY SHANE P. ONG',13,10
-			db 'Program Description: Calendar using ascii.',13,10
-			db 'Date Created:  August 30, 2024',13,10,10,'$'
-
-
+    calendar    db'|-----------------------------------------|', 13, 10
+                db'|                 AUGUST                  |', 13, 10
+                db'|-----------------------------------------|', 13, 10
+                db'| MON | TUE | WED | THU | FRI | SAT | SUN |', 13, 10
+                db'|-----------------------------------------|', 13, 10
+                db'|   29|   30|   31|    1|    2|    3|    4|', 13, 10
+                db'|-----------------------------------------|', 13, 10
+                db'|    5|    6|    7|    8|    9|   10|   11|', 13, 10
+                db'|-----------------------------------------|', 13, 10
+                db'|   12|   13|   14|   15|   16|   17|   18|', 13, 10
+                db'|-----------------------------------------|', 13, 10
+                db'|   19|   20|   21|   22|   23|   24|   25|', 13, 10
+                db'|-----------------------------------------|', 13, 10
+                db'|   26|   27|   28|   29|   30|   31|    1|', 13, 10
+                db'|-----------------------------------------|', 13, 10, '$'
 .code
 
 start:
+    movax, @data
+    movds, ax
 
-mov ax, @data
-mov ds, ax
+    leadx, head
+    movah, 09h
+    int21h
+    leadx, calendar
+    movah, 09h
+    int21h
 
-    lea dx, desc   
-	mov ah, 09h   
-	int 21h
+int27h
+end start
 
-  
-int 27h
-end start;
