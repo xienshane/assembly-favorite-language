@@ -3,10 +3,10 @@
 ; Date: August 30,2024
 
 .model small
-.stack100h
+.stack 100h
 
 .data
-    head    db13, 10, 10, ';  Filename: Exer9.asm ', 13, 10
+    head    db 13, 10, 10, ';  Filename: Exer9.asm ', 13, 10
             db';  Description:  Display a calendar', 13, 10
             db';  LOVELY SHANE P. ONG', 13, 10
             db';  Date: August 30, 2024', 13, 10, 10, '$'
@@ -29,16 +29,16 @@
 .code
 
 start:
-    movax, @data
-    movds, ax
+    mov ax, @data
+    mov ds, ax
 
-    leadx, head
-    movah, 09h
-    int21h
-    leadx, calendar
-    movah, 09h
-    int21h
+    lea dx, head
+    mov ah, 09h
+    int 21h
+    lea dx, calendar
+    mov ah, 09h
+    int 21h
 
-int27h
+int 27h
 end start
 
