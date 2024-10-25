@@ -3,459 +3,515 @@
 ;	First Semester SY 2024-2025 
 ;	Student Name: LOVELY SHANE P. ONG
 ;	Date Finished: OCTOBER 25, 2024 
- 
-.model small
-.stack 500h
-.data
-    intro       db 'THE CALCULATOR',13,10
-                DB 'Created by: JOHN WINSTON W.TABADA',13,10
-                db 'Date: September 29, 2024', 13,10,10
-                db 'Main Menu',13,10,'$'
-    a           db 'a - Addition',13,10,'$'
-    s           db 's - Subtraction',13,10,'$'
-    m           db 'm - Multiplication',13,10,'$'
-    d           db 'd - Division',13,10,'$'
-    e           db 'e - Exit',13,10,'$'
- 
-    choice      db 'Enter your choice: $'
- 
-    aPrompt     db 'Addition$'
-    aPrompt1    db 13,10,'Enter first addend: $'
-    aPrompt2    db 13,10,'Enter second addend: $'
-    aOp         db ' + $'
- 
-    sPrompt     db 'Subtraction$'
-    sPrompt1    db 13,10,'Enter minuend: $'
-    sPrompt2    db 13,10,'Enter subtrahend: $'
-    sOp         db ' - $'
- 
-    mPrompt     db 'Multiplication$'
-    mPrompt1    db 13,10,'Enter multiplicand: $'
-    mPrompt2    db 13,10,'Enter multiplier: $'
-    mOp         db ' x $'
- 
-    dPrompt     db 'Division$'
-    dPrompt1    db 13,10,'Enter dividend: $'
-    dPrompt2    db 13,10,'Enter divisor: $'
-    dOp         db ' / $'
- 
-    equals      db ' = $'
- 
-    eDisplay    db 'Exit Program$'
-    invalid     db 'INVALID CHOICE!$'
-    ending      db 13,10,'Thank you.$'
-    negSign     db '-$'
-    divZero     db 13,10,'Error: Division by zero is not allowed.', 13, 10,'$'
- 
-    input1   dw ?
-    input2   dw ?
-    sum      dw ?
-    diff     dw ?
-    prod     dw ?
-    quo      dw ?
- 
-.code
- 
-print proc
-    mov ah, 09h
-    int 21h
-    ret
-print endp
- 
- 
-getNum PROC
-    ; Read a single digit from keyboard and store in AX
-    mov ah, 01h
-    int 21h
-    sub al, '0'          ; Convert from ASCII to integer
-    mov ah, 0
-    ret
-getNum ENDP
- 
-getChar PROC
-    mov ah,01h
-    int 21h
-    ret
-getChar ENDP
- 
-converter proc
+
+.MODEL small
+.STACK 200h
+.DATA
+    inputnum1 db ? 
+    inputnum2 db ? 
+    header      DB 'THE CALCULATOR', 13, 10, \
+                    'Created by: LOVELY SHANE P. ONG', 13, 10, \
+                    'Date: October 25, 2024', 13, 10,'$'
+
+    header2     DB 13,10,'Main Menu',13,10,'$' 
+    choice1     DB 'a - Addition',13,10,'$' 
+    choice2     DB 's - Subtraction',13,10,'$' 
+    choice3     DB 'm - Multiplication',13,10,'$' 
+    choice4     DB 'd - Division',13,10,'$' 
+    choice5     DB 'e - Exit',13,10,'$' 
+
+    choice      DB 'Enter your choice: $' 
+
+    add1        DB 'Addition',13,10,'$' 
+    add2        DB 'Enter first addend: $' 
+    add3        DB 13,10,'Enter second addend: $' 
+    add5        DB ' + $'
+
+    sub1        DB 'Subtraction',13,10,'$' 
+    sub2        DB 'Enter minuend: $' 
+    sub3        DB 13,10,'Enter subtrahend: $' 
+    sub5        DB ' - $'
+
+    mul1        DB 'Multiplication',13,10,'$' 
+    mul2        DB 'Enter multiplicand: $' 
+    mul3        DB 13,10,'Enter multiplier: $' 
+    mul5        DB ' x $'
+
+    div1        DB 'Division',13,10,'$' 
+    div2        DB 'Enter dividend: $' 
+    div3        DB 13,10,'Enter divisor: $' 
+    div5        DB ' / $'
+
+    equa        DB ' = $'
+
+    exitDisplay    DB 'Exit Program$'
+    invalidDisplay DB 'INVALID CHOICE!','$' 
+    continuePrompt DB 13,10,13,10,'Thank you.', '$'
+    thankYou       DB 13,10,'Thank you.','$' 
+
+    nxt         DB 0dh, 0ah, '$'
+
+    in1         dw ? 
+    in2         dw ?
+
+    in3         db 20 DUP ('$')
+    in4         db 20 DUP ('$')
+
+    su          dw ?
+    dff         dw ?
+    mu          dw ?
+    dv          dw ?
+
+    suma        db 20 DUP ('$')
+    difa        db 20 DUP ('$')
+    mula        db 20 DUP ('$')
+    diva        db 20 DUP ('$')
+
+    sum         db 13,10,'Sum: $'
+    diff        db 13,10,'Difference: $'
+    mult        db 13,10,'Product: $'
+    divi        db 13,10,'Quotient: $'
+
+.CODE
+
+itoa:
     push ax
     push bx
     push cx
     push dx
- 
-    mov cx, 0            ; Counter for digits
-    mov bx, 10           ; Base for decimal conversion
- 
-    converter_loop1:
-        xor dx, dx           ; Clear DX before dividing
-        div bx               ; AX / BX, result in AX, remainder in DX
-        push dx              ; Push remainder onto stack
-        inc cx               ; Count the number of digits
-        cmp ax, 0            ; Check if quotient is zero
-        jne converter_loop1       ; Repeat if not
- 
-    converter_loop2:
-        pop dx               ; Pop the last remainder
-        add dl, '0'          ; Convert to ASCII
-        mov ah, 02h          ; Print character function
-        int 21h              ; Interrupt to print character
-        dec cx               ; Decrease the digit counter
-        cmp cx, 0            ; Check if finished printing all digits
-        jne converter_loop2       ; Continue if not
- 
+
+    mov cx, 0 
+    mov bx, 10 
+
+loop1:
+    xor dx, dx
+    div bx 
+    push dx 
+    inc cx 
+    cmp ax, 0 
+    jne loop1
+
+loop2:
+    pop dx 
+    add dl, '0' 
+    mov ah, 02h 
+    int 21h
+    dec cx 
+    cmp cx, 0 
+    jne loop2
+
     pop dx
     pop cx
     pop bx
     pop ax
     ret
-converter endp  
- 
-newLine PROC  
-    mov ah, 02h
-    mov dl, 13
-    int 21h
-    mov ah, 02h
-    mov dl, 10
+
+clearScreen:
+    mov ah, 00h
+    mov al, 03h
+    int 10h      
+    ret
+printString:
+    mov ah, 09h
+    mov bl, 07h
     int 21h
     ret
-newLine ENDP
- 
-addition proc
-    call newLine
-    call newLine
- 
-    mov ah,09h
-    mov bl,20h ;green bg and black text
-    mov cx,8
-    int 10h
-    lea dx, aPrompt
-    call print
- 
-    lea dx, aPrompt1
-    call print
-    call getNum
-    mov input1, ax
- 
-    lea dx, aPrompt2
-    call print
-    call getNum
-    mov input2, ax
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    mov dx, input1
-    add dx, input2
-    mov sum, dx
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    call newLine
-   
-    mov ax, input1
-    call converter
-   
-    lea dx, aOp
-    call print
- 
-    mov ax, input2
-    call converter
- 
-    lea dx, equals
-    call print
- 
-    mov ax, sum
-    call converter
- 
-    call newLine
+
+nxln:
+    lea dx, nxt
+    MOV ah, 09h
+    INT 21h
+    RET
+getChar:
+    mov ah,01h
+    int 21h
     ret
-addition endp
- 
-subtraction proc
-    call newLine
-    call newLine
- 
-    mov ah,09h
-    mov bl,30h ;cyan bg and black text
+getNum:
+    mov ah,01h  
+    int 21h
+    sub al, '0'
+    mov ah,0  
+    RET
+
+displayNum:
+    
+    int 21h 
+    RET
+    
+InAdd:
+    mov ah,09h 
+    mov bl,20h 
+    mov cx,8 
+    int 10h 
+
+    LEA dx, add1 
+    CALL printString
+
+    lea dx, add2 
+    CALL printString
+    
+    call getNum
+    mov in1, ax
+    
+    lea dx, add3 
+    CALL printString
+
+    CALL getNum
+    mov in2,ax
+
+    mov dx, in1
+    add dx, in2
+    mov su, dx
+
+    LEA dx,  nxt
+    CALL printString
+    
+    mov ax, in1
+    call itoa
+    mov dx, offset in3
+    mov ah, 9
+    int 21h
+
+    LEA dx,  add5 
+    CALL printString
+
+    mov ax, in2
+    call itoa
+    mov dx, offset in4
+    mov ah, 9
+    int 21h
+
+    lea dx, equa
+    mov ah, 9
+    int 21h
+
+    mov ax, su
+    call itoa
+    mov dx, offset suma
+    mov ah, 9
+    int 21h
+
+   ; Prompt to continue
+    lea dx, continuePrompt
+    mov ah, 09h
+    int 21h       
+
+    CALL getChar  
+    CALL clearScreen  
+
+    jmp loop_start 
+
+InSub:
+    mov ah,09h 
+    mov bl,30h 
     mov cx,11
-    int 10h
-    lea dx, sPrompt
-    call print
- 
-    lea dx, sPrompt1
-    call print
-    call getNum
-    mov input1, ax
- 
-    lea dx, sPrompt2
-    call print
-    call getNum
-    mov input2, ax
- 
-    call newLine
- 
-    mov ax, input1
-    call converter
-   
-    lea dx, sOp
-    call print
- 
-    mov ax, input2
-    call converter
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    mov ax, input1
-    sub ax, input2
-    mov diff, ax
-    cmp ax, 0
-    lea dx, equals
-    call print
-    jge display_result
- 
-    xor ax,ax
-    mov ax, input2
-    sub ax, input1
-    mov diff, ax
- 
-    lea dx, negSign
-    call print
-    display_result:
-        mov ax, diff
-        call converter
- 
-    call newLine
-    ret
-subtraction endp
- 
-multiplication proc
-    call newLine
-    call newLine
- 
+    int 10h 
+    
+    lea dx, sub1
+    CALL printString
+    
+    lea dx, sub2  
+    CALL printString
+    
+    CALL getNum
+    mov in1, ax
+    
+    lea dx, sub3
+    CALL printString
+
+    CALL getNum
+    mov in2,ax
+
+    mov dx, in1
+    sub dx, in2
+    mov dff, dx
+
+    LEA dx,  nxt
+    CALL printString 
+
+    mov ax, in1 
+    call itoa
+    mov dx, offset in3
+    mov ah, 9
+    int 21h
+    
+    LEA dx,  sub5  
+    CALL printString 
+    
+    mov ax, in2  
+    CALL itoa
+    mov dx, offset in4
+    mov ah, 9
+    int 21h
+
+    lea dx, equa
+    mov ah,9
+    int 21h
+
+    mov ax, dff
+    call itoa
+    mov dx, offset difa
+    mov ah, 9
+    int 21h
+
+    lea dx, continuePrompt
+    mov ah, 09h
+    int 21h       
+    
+    CALL getChar  
+    CALL clearScreen 
+    
+    jmp loop_start
+
+multiply:
     mov ah,09h
-    mov bl,50h ;purple bg and black text
+    mov bl,40h
     mov cx,14
     int 10h
-    lea dx, mPrompt
-    call print
- 
-    lea dx, mPrompt1
-    call print
+
+    mov dx, OFFSET mul1
+    call printString
+
+    mov dx, OFFSET mul2
+    call printString
+
     call getNum
-    mov input1, ax
- 
-    lea dx, mPrompt2
-    call print
+    mov in1, ax
+
+    mov dx, OFFSET mul3
+    call printString
+
     call getNum
-    mov input2, ax
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    mov ax, input1
-    mov dx, input2
+    mov in2, ax
+
+    mov ax, in1
+    mov dx, in2
     mul dx
-    mov prod, ax  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    call newLine
- 
-    mov ax, input1
-    call converter
-   
-    lea dx, mOp
-    call print
- 
-    mov ax, input2
-    call converter
- 
-    lea dx, equals
-    call print
-   
-    mov ax, prod
-    call converter
- 
-    call newLine
-    ret
-multiplication endp
- 
-checkAndHandleZero PROC
-    cmp bx, 0
-    jne continueDivision
-   
-    lea dx, divZero
-    call print
- 
-    call endingDisplay
-    continueDivision:
-        ret
-checkAndHandleZero ENDP
- 
-division proc
-    call newLine
-    call newLine
- 
-    mov ah,09h
-    mov bl,60h ;orange bg and black text
-    mov cx,8
-    int 10h
-    lea dx, dPrompt
-    call print
- 
-    lea dx, dPrompt1
-    call print
-    call getNum
-    mov input1, ax
- 
-    lea dx, dPrompt2
-    call print
-    call getNum
-    mov input2, ax
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    mov ax, input1
-    mov bx, input2
-    call checkAndHandleZero
- 
-    xor dx, dx
-    div bx
-    mov quo, ax  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    call newLine
- 
-    mov ax, input1
-    call converter
-   
-    lea dx, dOp
-    call print
- 
-    mov ax, input2
-    call converter
- 
-    lea dx, equals
-    call print
-   
-    mov ax, quo
-    call converter
- 
-    call newLine
-    ret
-division endp
- 
-exitProg proc
-    call newLine
-    call newLine
- 
-    mov ah,09h
-    mov bl,10h ;blue bg and black text
-    mov cx,12
-    int 10h
-    lea dx, eDisplay
-    call print
- 
-    call newLine
-    call terminate
-exitProg endp
- 
-invalidChoice proc  
-    call newLine
-    call newLine
-   
-    mov ah,09h
-    mov bl,0CEh ;red bg and blinking yellow text
-    mov cx,15
-    int 10h
-    lea dx, invalid
+    mov mu, ax
+
+    LEA dx,  nxt 
+    CALL printString
+
+    mov ax, in1
+    call itoa
+    mov dx, offset in3
+    mov ah, 9
+    int 21h
+
+    LEA dx,  mul5 
+    CALL printString
+    
+    mov ax, in2
+    call itoa
+    mov dx, offset in4
+    mov ah, 9
+    int 21h
+
+    lea dx, equa
+    mov ah, 9
+    int 21h
+
+    mov ax, mu
+    call itoa
+    mov dx, offset mula
+    mov ah, 9
+    int 21h
+
+    lea dx, continuePrompt
     mov ah, 09h
-    int 21h
-   
-    call newLine
-    ret
-invalidChoice endp  
- 
-endingDisplay proc
-    lea dx, ending
-    call print
-    call terminate
-   
-endingDisplay endp
- 
-terminate proc
-    mov ax, 4C00h
-    int 21h
-terminate endp
- 
-start:
-    mov  ax, @data
-    mov  ds, ax
-   
-   
-    mov ax, 3
-    int 10h
-   
-    lea dx, intro
-    call print
- 
-    mov ah,09h
-    mov bl,20h ;green bg and black text
-    mov cx,12
-    int 10h
-    lea dx, a        
-    call print
- 
-    mov ah,09h
-    mov bl,30h ;cyan bg and black text
-    mov cx,15
-    int 10h
-    lea dx, s
-    call print
- 
-    mov ah,09h
-    mov bl,50h ;purple bg and black text
+    int 21h       
+    
+    CALL getChar  
+    CALL clearScreen 
+
+    jmp loop_start
+
+ProgramStart: 
+    mov ax, @data 
+    mov ds, ax 
+
+loop_start: 
+    CALL clearScreen
+
+    LEA dx,  header 
+    CALL printString
+    
+    LEA dx,  header2 
+    CALL printString
+
+    mov ah,09h 
+    mov bl,20h  
+    mov cx,12  
+    int 10h 
+
+    LEA dx, choice1
+    CALL printString
+
+    mov ah,09h 
+    mov bl,30h  
+    mov cx,15 
+    int 10h 
+
+    LEA dx,  choice2
+    CALL printString 
+    
+    mov ah,09h 
+    mov bl,40h 
     mov cx,18
-    int 10h
-    lea dx, m
-    call print
- 
-    mov ah,09h
-    mov bl,60h ;orange bg and black text
+    int 10h 
+
+    LEA dx,  choice3
+    CALL printString
+    
+    mov ah,09h 
+    mov bl,50h 
     mov cx,12
-    int 10h
-    lea dx, d
-    call print
- 
-    mov ah,09h
-    mov bl,10h ;blue bg and black text
-    mov cx,8
-    int 10h
-    lea dx, e
-    call print
- 
-    call newLine
- 
-    lea dx, choice
-    call print
- 
-    mov ah, 01h
-    int 21h
- 
+    int 10h 
+    
+    LEA dx,  choice4
+    CALL printString
+    
+    mov ah,09h 
+    mov bl,70h 
+    mov cx,8 
+    int 10h 
+    
+    LEA dx, choice5
+    CALL PrintString
+    
+    LEA dx, choice 
+    CALL printString
+    
+    CALL getChar
+
+    ; DECISION
     cmp al,'a'  
-    je doAdd
-    cmp al,'s'
-    je doSub
-    cmp al,'m'
-    je doMult
-    cmp al,'d'
-    je doDiv
-    cmp al,'e'
-    je doExit
-    jne doInvalid
- 
-    doAdd:
-        call addition
-        call endingDisplay
-    doSub:
-        call subtraction
-        call endingDisplay
-    doMult:
-        call multiplication
-        call endingDisplay    
-    doDiv:
-        call division          
-        call endingDisplay
-    doExit:
-        call exitProg
-    doInvalid:
-        call invalidChoice
-        call endingDisplay
-       
-end start
+    je Addition 
+    cmp al,'s' 
+    je Subtraction 
+    cmp al,'m' 
+    je Multiplication 
+    cmp al,'d' 
+    je Division
+    cmp al,'e' 
+    je Exit
+    jne InvalidInput
+
+InvalidInput:
+    CALL nxln
+    CALL nxln
+    
+    mov ah,09h 
+    mov bl,11001110B
+    mov cx,15 
+    int 10h 
+    
+    LEA dx, invalidDisplay
+
+    CALL printString
+    CALL stop
+
+Exit:
+    CALL nxln
+    CALL nxln
+
+    mov ah,09h 
+    mov bl,70h 
+    mov cx,12
+    int 10h 
+    
+    LEA dx, exitDisplay
+    CALL printString
+    CALL stop
+
+Addition: 
+    CALL nxln
+    CALL nxln
+    jmp InAdd
+
+Subtraction: 
+    CALL nxln
+    CALL nxln
+    jmp InSub
+
+Multiplication: 
+    call nxln
+    call nxln
+    jmp multiply
+
+Division: 
+    CALL nxln
+    CALL nxln
+
+    mov ah,09h 
+    mov bl,50h 
+    mov cx,8 
+    int 10h 
+
+    LEA dx, div1
+    CALL printString
+    
+    LEA dx, div2 
+    CALL printString
+    
+    CALL getNum
+    mov in1, ax
+    
+    LEA dx, div3 
+    CALL printString 
+
+    CALL getNum
+    mov in2, ax
+
+    mov ax, in1
+    xor dx, dx
+    mov bx, in2
+    div bx
+    mov dv, ax
+    
+    LEA dx,  nxt  
+    CALL printString
+
+    mov ax, in1
+    call itoa
+    mov dx, offset in3
+    mov ah, 9
+    int 21h
+    
+    LEA dx,  div5 
+    CALL printString
+
+    mov ax, in2
+    call itoa
+    mov dx, offset in4
+    mov ah, 9
+    int 21h
+
+    lea dx, equa
+    mov ah, 9
+    int 21h
+
+    mov ax, dv
+    call itoa
+    mov dx, offset diva
+    mov ah, 9
+    int 21h
+
+    lea dx, continuePrompt
+    mov ah, 09h
+    int 21h       
+    
+    CALL getChar  
+    CALL clearScreen 
+
+    jmp loop_start
+
+stop:
+    CALL nxln
+    LEA dx,  thankYou 
+    CALL printString
+    
+    mov ax,4C00h  
+    int 21h 
+
+END ProgramStart
