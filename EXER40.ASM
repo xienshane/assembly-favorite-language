@@ -1,5 +1,5 @@
 ; Filename: EXER40.ASM
-; Programmer Name: JOANA CARLA GAKO
+; Programmer Name: LOVELY SHANE P. ONG
 ; Date: October 25, 2024
 ; Description: This assembly language program will prompt two integers and display their sum
 
