@@ -7,11 +7,30 @@
     - ikaupat siya i-believe
     - change to "workspace"
 5. Sa pinakatop sa settings naay "Edit in settingds.json" . CLICK!
-6. Under sa TASM imodify
+6. Under sa TASM imodify ni
 
-Like this:
-a. Change the surname to yours which is your folder name.
+"TASM": {
+            "baseBundle": "<built-in>/TASM.jsdos",
+            "before": [
+                "set PATH=C:\\TASM"
+            ],
+            "run": [
+                "TASM ${file}",
+                "TLINK ${filename}",
+                ">${filename}"
+            ],
+            "debug": [
+                "TASM /zi ${file}",
+                "TLINK /v/3 ${filename}.obj",
+                "copy C:\\TASM\\TDC2.TD TDCONFIG.TD",
+                "TD -cTDCONFIG.TD ${filename}.exe"
+            ]
+        },
+
+---------------------------------------------------------------------------------------------------------------
+a. Change the TASM to your surname which is your folder name.
 b. under sa "run" add "io.obj" after the close bracket.
+---------------------------------------------------------------------------------------------------------------
 
 It should look like this:
 
