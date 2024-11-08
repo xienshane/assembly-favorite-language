@@ -1,3 +1,5 @@
+/////////////// MAKE SURE NAA ANG "IO.MAC" og "IO.OBJ" nga file sa SAME FOLDER.
+
 /// PARA MO RUN SIYA SA VSCODE READ THIS!!!!!!!
 
 1. Adto sa Extensions
