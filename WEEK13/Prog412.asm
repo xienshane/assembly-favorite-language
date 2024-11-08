@@ -27,10 +27,10 @@ main    PROC
         push    AX                  ; push string[1] pointer on stack
         call    swap                ; swaps the first two characters
         PutStr  output_msg          ; display the swapped string
-        PutInt  string
+        PutStr  string
         nwln    
 done: 
-        .EXIT
+     
 main    ENDP
 
 ;-----------------------------------------------------------
