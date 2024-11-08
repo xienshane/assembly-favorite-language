@@ -1,0 +1,36 @@
+/// PARA MO RUN SIYA SA VSCODE READ THIS!!!!!!!
+
+1. Adto sa Extensions
+2. Search for "MASM/TASM"
+3. Adto sa Settings sa MASM/TASM (Settings symbol sa lower right sa extension)
+4. Find the "Masmtasm.ASM: Mode" (choose working Mode)
+    - ikaupat siya i-believe
+    - change to "workspace"
+5. Sa pinakatop sa settings naay "Edit in settingds.json" . CLICK!
+6. Under sa TASM imodify
+
+Like this:
+a. Change the surname to yours which is your folder name.
+b. under sa "run" add "io.obj" after the close bracket.
+
+It should look like this:
+
+ "TASM": {
+            "baseBundle": "<built-in>/TASM.jsdos",
+            "before": [
+                "set PATH=C:\\SURNAME"
+            ],
+            "run": [
+                "TASM ${file}",
+                "TLINK ${filename} io.obj",
+                ">${filename}"
+            ],
+            "debug": [
+                "TASM /zi ${file}",
+                "TLINK /v/3 ${filename}.obj",
+                "copy C:\\TASM\\TDC2.TD TDCONFIG.TD",
+                "TD -cTDCONFIG.TD ${filename}.exe"
+            ]
+        },
+
+And then save. Wala nay need buhaton. It should work.
