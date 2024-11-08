@@ -30,7 +30,7 @@
         },
 
 ---------------------------------------------------------------------------------------------------------------
-a. Change the TASM to your surname which is your folder name.
+a. Change the TASM in  "set PATH=C:\\TASM" to your SURNAME which is your folder name.
 b. under sa "run" add "io.obj" after the close bracket.
 ---------------------------------------------------------------------------------------------------------------
 
