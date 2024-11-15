@@ -52,7 +52,7 @@ MAIN PROC
 
     mov ah, 06h
     xor al, al
-    mov bh, 2Fh    ; CHANGE COLOR HEREEEEE!!!
+    mov bh, 2Fh    ; CHANGE COLOR HEREEEEE!!!!
     xor cx, cx     ; Upper left corner CH=row, CL=column
     mov dx, 184Fh  ; lower right corner DH=row, DL=column 
     mov ch, 0
