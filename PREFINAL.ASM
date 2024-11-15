@@ -1,8 +1,8 @@
 ;Filename: PREFINAL.ASM
-;b.CS243 Lab Hands-on Pre-Final Exam
-;c.First Semester SY 2024-2025
-;d.Student Name: LOVELY SHANE P. ONG
-;e.Date Finished: 11/15/2024
+;CS243 Lab Hands-on Pre-Final Exam
+;First Semester SY 2024-2025
+;Student Name: LOVELY SHANE P. ONG
+;Date Finished: 11/15/2024
 
 .MODEL SMALL
 .STACK 100H
