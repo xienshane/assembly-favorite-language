@@ -52,7 +52,7 @@ MAIN PROC
 
     mov ah, 06h
     xor al, al
-    mov bh, 2Fh    ; White BG(0Fh), White text (7h)
+    mov bh, 2Fh    ; CHANGE COLOR HEREEEEE!!!
     xor cx, cx     ; Upper left corner CH=row, CL=column
     mov dx, 184Fh  ; lower right corner DH=row, DL=column 
     mov ch, 0
@@ -405,7 +405,7 @@ DISPLAY_MENU PROC
     ; Set color for header1
     mov ah, 09h
     mov bh, 0
-    mov bl, 4Fh   ; BG,FG
+    mov bl, 4Fh   ; CHANGE COLOR HEREEEEE!!!
     mov cx, 78     ; Length
     int 10h
 
@@ -426,7 +426,7 @@ DISPLAY_MENU PROC
     ; Set color for header1
     mov ah, 09h
     mov bh, 0
-    mov bl, 4Fh   ; BG,FG
+    mov bl, 4Fh   ; CHANGE COLOR HEREEEEE!!!
     mov cx, 78     ; Length
     int 10h
 
@@ -447,7 +447,7 @@ DISPLAY_MENU PROC
     ; Set color for header1
     mov ah, 09h
     mov bh, 0
-    mov bl, 4Fh   ; BG,FG
+    mov bl, 4Fh   ; CHANGE COLOR HEREEEEE!!!
     mov cx, 78     ; Length
     int 10h
 
@@ -468,7 +468,7 @@ DISPLAY_MENU PROC
     ; Set color for header1
     mov ah, 09h
     mov bh, 0
-    mov bl, 4Fh   ; BG,FG
+    mov bl, 4Fh   ; CHANGE COLOR HEREEEEE!!!
     mov cx, 78     ; Length
     int 10h
 
@@ -489,7 +489,7 @@ DISPLAY_MENU PROC
     ; Set color for header1
     mov ah, 09h
     mov bh, 0
-    mov bl, 4Fh   ; BG,FG
+    mov bl, 4Fh   ; CHANGE COLOR HEREEEEE!!!
     mov cx, 78     ; Length
     int 10h
 
